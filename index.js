@@ -431,63 +431,79 @@ const loginPage = `
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
-    .login-container {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      min-height: 100vh;
+    :root {
+      --bg: #f6f7f9;
+      --surface: #ffffff;
+      --border: #e5e9f0;
+      --text: #1e2430;
+      --text-2: #5b6472;
+      --accent: #3166d9;
+      --accent-hover: #2852b8;
     }
-    .login-box {
-      backdrop-filter: blur(8px);
-      background-color: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    body {
+      background: var(--bg);
+      min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "PingFang SC", "Microsoft YaHei", sans-serif;
+      margin: 0; padding: 1rem;
+    }
+    .login-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      box-shadow: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06);
+      width: 100%; max-width: 400px; padding: 2.5rem 2rem;
+    }
+    .login-header { text-align: center; margin-bottom: 2rem; }
+    .login-header h1 { font-size: 1.375rem; font-weight: 600; color: var(--text); margin: 0 0 .25rem; }
+    .login-header p { font-size: .875rem; color: var(--text-2); margin: 0; }
+    .login-header i { color: var(--accent); }
+    .field { margin-bottom: 1.25rem; }
+    .field label { display: block; font-size: .875rem; font-weight: 500; color: var(--text); margin-bottom: .375rem; }
+    .field label i { color: var(--text-2); width: 1rem; }
+    .field input {
+      display: block; width: 100%; padding: .625rem .75rem;
+      font-size: .875rem; color: var(--text);
+      border: 1px solid var(--border); border-radius: 8px;
+      outline: none; transition: border-color .15s, box-shadow .15s;
+      box-sizing: border-box;
+    }
+    .field input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(49,102,217,.2);
     }
     .btn-primary {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center; gap: .5rem;
+      width: 100%; padding: .75rem 1rem;
+      background: var(--accent); color: #fff;
+      font-size: .875rem; font-weight: 500;
+      border: none; border-radius: 8px;
+      cursor: pointer; transition: background .15s;
     }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    }
-    .input-field {
-      transition: all 0.3s;
-      border: 1px solid #e2e8f0;
-    }
-    .input-field:focus {
-      border-color: #667eea;
-      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
-    }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-primary:disabled { opacity: .6; cursor: not-allowed; }
+    .error-msg { margin-top: .75rem; font-size: .875rem; color: #dc2626; text-align: center; min-height: 1.25rem; }
   </style>
 </head>
-<body class="login-container flex items-center justify-center">
-  <div class="login-box p-8 rounded-xl w-full max-w-md">
-    <div class="text-center mb-8">
-      <h1 class="text-2xl font-bold text-gray-800"><i class="fas fa-calendar-check mr-2"></i>订阅管理系统</h1>
-      <p class="text-gray-600 mt-2">登录管理您的订阅提醒</p>
+<body>
+  <div class="login-card">
+    <div class="login-header">
+      <h1><i class="fas fa-calendar-check"></i> 订阅管理系统</h1>
+      <p>登录管理您的订阅提醒</p>
     </div>
-    
-    <form id="loginForm" class="space-y-6">
-      <div>
-        <label for="username" class="block text-sm font-medium text-gray-700 mb-1">
-          <i class="fas fa-user mr-2"></i>用户名
-        </label>
-        <input type="text" id="username" name="username" required
-          class="input-field w-full px-4 py-3 rounded-lg text-gray-700 focus:outline-none">
+    <form id="loginForm">
+      <div class="field">
+        <label for="username"><i class="fas fa-user"></i> 用户名</label>
+        <input type="text" id="username" name="username" required placeholder="请输入用户名">
       </div>
-      
-      <div>
-        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
-          <i class="fas fa-lock mr-2"></i>密码
-        </label>
-        <input type="password" id="password" name="password" required
-          class="input-field w-full px-4 py-3 rounded-lg text-gray-700 focus:outline-none">
+      <div class="field">
+        <label for="password"><i class="fas fa-lock"></i> 密码</label>
+        <input type="password" id="password" name="password" required placeholder="请输入密码">
       </div>
-      
-      <button type="submit" 
-        class="btn-primary w-full py-3 rounded-lg text-white font-medium focus:outline-none">
-        <i class="fas fa-sign-in-alt mr-2"></i>登录
+      <button type="submit" class="btn-primary">
+        <i class="fas fa-sign-in-alt"></i> 登录
       </button>
-      
-      <div id="errorMsg" class="text-red-500 text-center"></div>
+      <div id="errorMsg" class="error-msg"></div>
     </form>
   </div>
   
@@ -539,713 +555,460 @@ const adminPage = `
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
-    .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: all 0.3s; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
-    .btn-danger { background: linear-gradient(135deg, #f87171 0%, #dc2626 100%); transition: all 0.3s; }
-    .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
-    .btn-success { background: linear-gradient(135deg, #34d399 0%, #059669 100%); transition: all 0.3s; }
-    .btn-success:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
-    .btn-warning { background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%); transition: all 0.3s; }
-    .btn-warning:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
-    .btn-info { background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%); transition: all 0.3s; }
-    .btn-info:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
-    .table-container { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); }
-    .modal-container { backdrop-filter: blur(8px); }
-    .readonly-input { background-color: #f8fafc; border-color: #e2e8f0; cursor: not-allowed; }
-    .error-message { font-size: 0.875rem; margin-top: 0.25rem; display: none; }
-    .error-message.show { display: block; }
+    :root {
+      --bg: #f6f7f9; --surface: #fff; --surface-2: #f8f9fc;
+      --border: #e5e9f0; --border-2: #d1d6e0;
+      --text: #1e2430; --text-2: #5b6472; --text-3: #9ca3af;
+      --accent: #3166d9; --accent-hover: #2852b8; --accent-soft: #eff2fd; --accent-border: #cddafe;
+      --success: #059669; --success-soft: #ecfdf5;
+      --warning: #d97706; --warning-soft: #fffbeb;
+      --danger: #dc2626; --danger-soft: #fef2f2;
+      --info: #3b82f6; --info-soft: #eff6ff;
+      --radius: 10px; --radius-card: 12px;
+      --shadow-sm: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06);
+      --shadow-md: 0 4px 6px -1px rgba(16,24,40,.06), 0 2px 4px -2px rgba(16,24,40,.05);
+      --shadow-lg: 0 10px 15px -3px rgba(16,24,40,.06), 0 4px 6px -2px rgba(16,24,40,.04);
+    }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--bg); margin: 0; color: var(--text); }
 
-    /* 通用悬浮提示优化 */
-    .hover-container {
-      position: relative;
-      width: 100%;
-    }
-    .hover-text {
-      max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: block;
-    }
-    .hover-text:hover { color: #3b82f6; }
-    .hover-tooltip {
-      position: fixed;
-      z-index: 9999;
-      background: #1f2937;
-      color: white;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 0.875rem;
-      max-width: 320px;
-      word-wrap: break-word;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      transform: translateY(-10px);
-      white-space: normal;
-      pointer-events: none;
-      line-height: 1.4;
-    }
-    .hover-tooltip.show {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-    .hover-tooltip::before {
-      content: '';
-      position: absolute;
-      top: -6px;
-      left: 20px;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-bottom: 6px solid #1f2937;
-    }
-    .hover-tooltip.tooltip-above::before {
-      top: auto;
-      bottom: -6px;
-      border-bottom: none;
-      border-top: 6px solid #1f2937;
-    }
+    /* 导航 */
+    .app-nav { background: var(--surface); border-bottom: 1px solid var(--border); height: 56px; display: flex; align-items: center; }
+    .app-nav-inner { max-width: 1280px; width: 100%; margin: 0 auto; padding: 0 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+    .app-nav-l { display: flex; align-items: center; gap: .5rem; }
+    .app-nav-l i { color: var(--accent); font-size: 1.25rem; }
+    .app-nav-l span { font-weight: 600; font-size: 1rem; color: var(--text); }
+    .app-nav-r { display: flex; align-items: center; gap: .25rem; }
+    .app-nav-r a { display: flex; align-items: center; gap: .375rem; padding: .5rem .75rem; font-size: .8125rem; font-weight: 500; color: var(--text-2); text-decoration: none; border-radius: 6px; transition: background .12s, color .12s; }
+    .app-nav-r a:hover { background: var(--surface-2); color: var(--text); }
+    .app-nav-r a.active { color: var(--accent); background: var(--accent-soft); }
+    .app-nav-r .logout { color: var(--text-3); }
+    .app-nav-r .logout:hover { color: var(--danger); background: var(--danger-soft); }
+    #systemTimeDisplay { font-size: .8125rem; color: var(--text-2); margin-right: .5rem; white-space: nowrap; }
+    @media (max-width: 767px) { #systemTimeDisplay { display: none !important; } }
 
-    /* 备注显示优化 */
-    .notes-container {
-      position: relative;
-      max-width: 200px;
-      width: 100%;
-    }
-    .notes-text {
-      max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      display: block;
-    }
-    .notes-text:hover { color: #3b82f6; }
-    .notes-tooltip {
-      position: fixed;
-      z-index: 9999;
-      background: #1f2937;
-      color: white;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 0.875rem;
-      max-width: 320px;
-      word-wrap: break-word;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-      transform: translateY(-10px);
-      white-space: normal;
-      pointer-events: none;
-      line-height: 1.4;
-    }
-    .notes-tooltip.show {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
-    .notes-tooltip::before {
-      content: '';
-      position: absolute;
-      top: -6px;
-      left: 20px;
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-bottom: 6px solid #1f2937;
-    }
-    .notes-tooltip.tooltip-above::before {
-      top: auto;
-      bottom: -6px;
-      border-bottom: none;
-      border-top: 6px solid #1f2937;
-    }
+    /* 页面头 */
+    .page-head { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.5rem; }
+    .page-head h2 { font-size: 1.375rem; font-weight: 600; margin: 0; color: var(--text); }
+    .page-head p { font-size: .875rem; color: var(--text-2); margin: .25rem 0 0; }
+    .page-tools { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; }
 
-    /* 农历显示样式 */
-    .lunar-display {
-      font-size: 0.75rem;
-      color: #6366f1;
-      margin-top: 2px;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .lunar-display.show {
-      opacity: 1;
-    }
-    /* 自定义日期选择器样式 */
-    .hidden {
-      display: none !important;
-    }
-    
-    .custom-date-picker {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-      border-radius: 12px;
-      min-width: 380px;
-    }
-    
-    .custom-date-picker .calendar-day {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 48px;
-      height: 60px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      position: relative;
-      padding: 4px;
-      font-size: 14px;
-    }
-    
-    .custom-date-picker .calendar-day:hover {
-      background-color: #e0e7ff;
-      transform: scale(1.05);
-    }
-    
-    .custom-date-picker .calendar-day.selected {
-      background-color: #6366f1;
-      color: white;
-      transform: scale(1.1);
-      box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
-    }
-    
-    .custom-date-picker .calendar-day.today {
-      background-color: #e0e7ff;
-      color: #6366f1;
-      font-weight: 600;
-      border: 2px solid #6366f1;
-    }
-    
-    .custom-date-picker .calendar-day.other-month {
-      color: #d1d5db;
-    }
-    
-    .custom-date-picker .calendar-day .lunar-text {
-      font-size: 11px;
-      line-height: 1.2;
-      margin-top: 3px;
-      opacity: 0.85;
-      text-align: center;
-      font-weight: 500;
-    }
-    
-    .custom-date-picker .calendar-day.selected .lunar-text {
-      color: rgba(255, 255, 255, 0.9);
-    }
-    
-    .custom-date-picker .calendar-day.today .lunar-text {
-      color: #6366f1;
-    }
-    
-    /* 月份和年份选择器样式 */
-    .month-option, .year-option {
-      transition: all 0.2s ease;
-      border: 1px solid transparent;
-    }
-    
-    .month-option:hover, .year-option:hover {
-      background-color: #e0e7ff !important;
-      border-color: #6366f1;
-      color: #6366f1;
-    }
-    
-    .month-option.selected, .year-option.selected {
-      background-color: #6366f1 !important;
-      color: white;
-      border-color: #6366f1;
-    }
-    
-    .lunar-toggle {
-      display: inline-flex;
-      align-items: center;
-      margin-bottom: 8px;
-      font-size: 0.875rem;
-    }
-    .lunar-toggle input[type="checkbox"] {
-      margin-right: 6px;
-    }
+    /* 搜索框 */
+    .search-wrap { position: relative; min-width: 200px; }
+    .search-wrap i { position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--text-3); font-size: .8125rem; pointer-events: none; }
+    .search-wrap input { width: 100%; padding: .5rem .75rem .5rem 2rem; font-size: .875rem; border: 1px solid var(--border); border-radius: 8px; outline: none; background: var(--surface); transition: border-color .15s; box-sizing: border-box; }
+    .search-wrap input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(49,102,217,.15); }
 
-    /* 表格布局优化 */
-    .table-container {
-      width: 100%;
-      overflow: visible;
-    }
+    /* 分类筛选 */
+    .filter-select { padding: .5rem .75rem; font-size: .875rem; border: 1px solid var(--border); border-radius: 8px; outline: none; background: var(--surface); color: var(--text); transition: border-color .15s; }
+    .filter-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(49,102,217,.15); }
 
-    .table-container table {
-      table-layout: fixed;
-      width: 100%;
-    }
+    /* 按钮体系 */
+    .btn { display: inline-flex; align-items: center; gap: .375rem; padding: .5rem .875rem; font-size: .8125rem; font-weight: 500; border: none; border-radius: 8px; cursor: pointer; transition: background .12s, opacity .12s; text-decoration: none; white-space: nowrap; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-danger { background: var(--danger); color: #fff; }
+    .btn-danger:hover { background: #b91c1c; }
+    .btn-success { background: var(--success); color: #fff; }
+    .btn-success:hover { background: #047857; }
+    .btn-warning { background: var(--warning); color: #fff; }
+    .btn-warning:hover { background: #b45309; }
+    .btn-info { background: var(--info); color: #fff; }
+    .btn-info:hover { background: #2563eb; }
+    .btn-secondary { background: var(--surface); color: var(--text-2); border: 1px solid var(--border); }
+    .btn-secondary:hover { background: var(--surface-2); }
+    .btn:disabled { opacity: .55; cursor: not-allowed; }
 
-    /* 防止表格内容溢出 */
-    .table-container td {
-      overflow: hidden;
-      word-wrap: break-word;
-    }
+    /* 卡片 */
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); box-shadow: var(--shadow-sm); }
+    .card-header { padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
+    .card-body { padding: 1.25rem; }
 
-    .truncate {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    /* 响应式优化 */
+    /* 表格容器 */
+    .table-container { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); overflow: visible; }
+    .table-container table { table-layout: fixed; width: 100%; border-collapse: collapse; }
+    .table-container thead tr { border-bottom: 1px solid var(--border); }
+    .table-container th { padding: .75rem 1rem; font-size: .75rem; font-weight: 600; color: var(--text-2); text-align: left; background: var(--surface-2); }
+    .table-container th:first-child { border-radius: 12px 0 0 0; }
+    .table-container th:last-child { border-radius: 0 12px 0 0; }
+    .table-container td { padding: .75rem 1rem; font-size: .8125rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .table-container tbody tr:last-child td { border-bottom: none; }
+    .table-container tbody tr:hover { background: var(--accent-soft); }
+    .table-container .td-content-wrapper { word-wrap: break-word; white-space: normal; text-align: left; width: 100%; }
+    .table-container .td-content-wrapper > * { text-align: left; }
     .responsive-table { table-layout: fixed; width: 100%; }
-    .td-content-wrapper { word-wrap: break-word; white-space: normal; text-align: left; width: 100%; }
-    .td-content-wrapper > * { text-align: left; } /* Align content left within the wrapper */
 
+    /* 状态徽章 */
+    .status-badge { display: inline-flex; align-items: center; gap: .25rem; padding: .1875rem .625rem; font-size: .75rem; font-weight: 500; border-radius: 999px; }
+    .status-normal { background: #ecfdf5; color: #065f46; }
+    .status-urgent { background: #fffbeb; color: #92400e; }
+    .status-expired { background: #fef2f2; color: #991b1b; }
+    .status-disabled { background: #f3f4f6; color: #6b7280; }
+
+    /* 操作按钮组 */
+    .action-buttons-wrapper { display: flex; flex-wrap: wrap; gap: .375rem; justify-content: flex-end; }
+
+    /* 工具栏 - 农历切换 */
+    .lunar-toggle { display: inline-flex; align-items: center; gap: .375rem; font-size: .8125rem; color: var(--text-2); cursor: pointer; }
+    .lunar-toggle input { width: 1rem; height: 1rem; accent-color: var(--accent); border-radius: 4px; cursor: pointer; }
+
+    /* 模态框 */
+    .modal-container { position: fixed; inset: 0; background: rgba(30,36,48,.45); display: flex; align-items: center; justify-content: center; z-index: 400; }
+    .modal-card { background: var(--surface); border-radius: var(--radius-card); box-shadow: var(--shadow-lg); width: 100%; max-width: 640px; margin: 1rem; max-height: calc(100vh - 2rem); overflow-y: auto; }
+    .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); }
+    .modal-header h3 { font-size: 1rem; font-weight: 600; margin: 0; }
+    .modal-close { background: none; border: none; color: var(--text-3); cursor: pointer; padding: .25rem; border-radius: 4px; transition: color .12s, background .12s; }
+    .modal-close:hover { color: var(--text); background: var(--surface-2); }
+    .modal-body { padding: 1.25rem; }
+    .modal-footer { display: flex; justify-content: flex-end; gap: .75rem; padding: 1rem 1.25rem; border-top: 1px solid var(--border); }
+
+    /* 表单字段 */
+    .field-group { margin-bottom: 1rem; }
+    .field-label { display: block; font-size: .8125rem; font-weight: 500; color: var(--text); margin-bottom: .375rem; }
+    .field-input, .field-select { width: 100%; padding: .5rem .75rem; font-size: .875rem; border: 1px solid var(--border); border-radius: 8px; outline: none; background: var(--surface); transition: border-color .15s; box-sizing: border-box; }
+    .field-input:focus, .field-select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(49,102,217,.15); }
+    .readonly-input { background: var(--surface-2) !important; border-color: var(--border) !important; cursor: not-allowed !important; }
+    .field-hint { font-size: .75rem; color: var(--text-3); margin-top: .25rem; }
+    .error-message { font-size: .8125rem; color: var(--danger); margin-top: .25rem; display: none; }
+    .error-message.show { display: block; }
+    .border-red-500 { border-color: var(--danger) !important; }
+
+    /* 悬浮提示 */
+    .hover-container { position: relative; width: 100%; }
+    .hover-text { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; display: block; transition: color .12s; }
+    .hover-text:hover { color: var(--accent); }
+    .hover-tooltip {
+      position: fixed; z-index: 600; background: #1e2937; color: #fff;
+      padding: .5rem .75rem; border-radius: 8px; font-size: .8125rem; max-width: 300px;
+      word-wrap: break-word; box-shadow: 0 4px 12px rgba(0,0,0,.25);
+      opacity: 0; visibility: hidden; transition: opacity .2s, transform .2s;
+      transform: translateY(-8px); white-space: normal; pointer-events: none; line-height: 1.45;
+    }
+    .hover-tooltip.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    .hover-tooltip::before { content: ''; position: absolute; top: -5px; left: 16px; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 5px solid #1e2937; }
+    .hover-tooltip.tooltip-above::before { top: auto; bottom: -5px; border-bottom: none; border-top: 5px solid #1e2937; }
+    .notes-container { position: relative; max-width: 200px; width: 100%; }
+    .notes-text { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; display: block; transition: color .12s; }
+    .notes-text:hover { color: var(--accent); }
+    .notes-tooltip {
+      position: fixed; z-index: 600; background: #1e2937; color: #fff;
+      padding: .5rem .75rem; border-radius: 8px; font-size: .8125rem; max-width: 300px;
+      word-wrap: break-word; box-shadow: 0 4px 12px rgba(0,0,0,.25);
+      opacity: 0; visibility: hidden; transition: opacity .2s, transform .2s;
+      transform: translateY(-8px); white-space: normal; pointer-events: none; line-height: 1.45;
+    }
+    .notes-tooltip.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    .notes-tooltip::before { content: ''; position: absolute; top: -5px; left: 16px; border-left: 5px solid transparent; border-right: 5px solid transparent; border-bottom: 5px solid #1e2937; }
+    .notes-tooltip.tooltip-above::before { top: auto; bottom: -5px; border-bottom: none; border-top: 5px solid #1e2937; }
+
+    /* 农历显示 */
+    .lunar-display { font-size: .75rem; color: var(--accent); margin-top: 2px; opacity: 0; transition: opacity .2s; }
+    .lunar-display.show { opacity: 1; }
+    .truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    /* 日期选择器 */
+    .hidden { display: none !important; }
+    .custom-date-picker { font-family: inherit; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-card); box-shadow: var(--shadow-lg); padding: 1.25rem; min-width: 340px; }
+    .custom-date-picker .calendar-day { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 44px; height: 52px; border-radius: 6px; cursor: pointer; transition: background .1s; position: relative; padding: 2px; font-size: .8125rem; }
+    .custom-date-picker .calendar-day:hover { background: var(--accent-soft); }
+    .custom-date-picker .calendar-day.selected { background: var(--accent); color: #fff; box-shadow: 0 1px 4px rgba(49,102,217,.3); }
+    .custom-date-picker .calendar-day.today { background: var(--accent-soft); color: var(--accent); font-weight: 600; border: 2px solid var(--accent); }
+    .custom-date-picker .calendar-day.other-month { color: var(--text-3); }
+    .custom-date-picker .calendar-day .lunar-text { font-size: .625rem; line-height: 1.1; margin-top: 2px; opacity: .8; text-align: center; }
+    .custom-date-picker .calendar-day.selected .lunar-text { color: rgba(255,255,255,.9); }
+    .custom-date-picker .calendar-day.today .lunar-text { color: var(--accent); }
+    .month-option, .year-option { transition: background .1s; border: 1px solid transparent; cursor: pointer; }
+    .month-option:hover, .year-option:hover { background: var(--accent-soft) !important; border-color: var(--accent); color: var(--accent); }
+    .month-option.selected, .year-option.selected { background: var(--accent) !important; color: #fff; border-color: var(--accent); }
+
+    /* Toast */
+    .toast { position: fixed; top: 1rem; right: 1rem; padding: .75rem 1rem; border-radius: 8px; color: #fff; font-weight: 500; z-index: 500; transform: translateX(400px); transition: transform .25s ease; box-shadow: 0 4px 12px rgba(30,36,48,.15); display: flex; align-items: center; gap: .5rem; font-size: .875rem; }
+    .toast.show { transform: translateX(0); }
+    .toast.success { background: var(--success); }
+    .toast.error { background: var(--danger); }
+    .toast.info { background: var(--info); }
+    .toast.warning { background: var(--warning); }
+
+    /* 响应式 — 移动端表格 */
     @media (max-width: 767px) {
-      .table-container { overflow-x: initial; } /* Override previous setting */
+      .table-container { overflow-x: initial; }
       .responsive-table thead { display: none; }
       .responsive-table tbody, .responsive-table tr, .responsive-table td { display: block; width: 100%; }
-      .responsive-table tr { margin-bottom: 1.5rem; border: 1px solid #ddd; border-radius: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden; }
-      .responsive-table td { display: flex; justify-content: flex-start; align-items: center; padding: 0.75rem 1rem; border-bottom: 1px solid #eee; }
+      .responsive-table tr { margin-bottom: 1rem; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
+      .responsive-table td { display: flex; justify-content: flex-start; align-items: center; padding: .625rem .75rem; border-bottom: 1px solid var(--border); gap: .5rem; }
       .responsive-table td:last-of-type { border-bottom: none; }
-      .responsive-table td:before { content: attr(data-label); font-weight: 600; text-align: left; padding-right: 1rem; color: #374151; white-space: nowrap; }
-      .action-buttons-wrapper { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: flex-end; }
-      
-      .notes-container, .hover-container {
-        max-width: 180px; /* Adjust for new layout */
-        text-align: right;
-      }
-      .td-content-wrapper .notes-text {
-        text-align: right;
-      }
-     }
-    @media (max-width: 767px) {
-      #systemTimeDisplay {
-        display: none !important;
-      }
+      .responsive-table td:before { content: attr(data-label); font-weight: 600; text-align: left; color: var(--text-2); white-space: nowrap; flex-shrink: 0; min-width: 5rem; }
+      .notes-container, .hover-container { max-width: 140px; }
     }
-    @media (min-width: 768px) {
-      .table-container {
-        overflow: visible;
-      }
-      /* .td-content-wrapper is aligned left by default */
-    }
-
-    /* Toast 样式 */
-    .toast {
-      position: fixed; top: 20px; right: 20px; padding: 12px 20px; border-radius: 8px;
-      color: white; font-weight: 500; z-index: 1000; transform: translateX(400px);
-      transition: all 0.3s ease-in-out; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    }
-    .toast.show { transform: translateX(0); }
-    .toast.success { background-color: #10b981; }
-    .toast.error { background-color: #ef4444; }
-    .toast.info { background-color: #3b82f6; }
-    .toast.warning { background-color: #f59e0b; }
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body>
   <div id="toast-container"></div>
-
-  <nav class="bg-white shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
-        <div class="flex items-center">
-          <i class="fas fa-calendar-check text-indigo-600 text-2xl mr-2"></i>
-          <span class="font-bold text-xl text-gray-800">订阅管理系统</span>
-          <span id="systemTimeDisplay" class="ml-4 text-base text-indigo-600 font-normal"></span>
-        </div>
-        <div class="flex items-center space-x-4">
-          <a href="/admin" class="text-indigo-600 border-b-2 border-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
-            <i class="fas fa-list mr-1"></i>订阅列表
-          </a>
-          <a href="/admin/config" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
-            <i class="fas fa-cog mr-1"></i>系统配置
-          </a>
-          <a href="/api/logout" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
-            <i class="fas fa-sign-out-alt mr-1"></i>退出登录
-          </a>
-        </div>
+  
+  <nav class="app-nav">
+    <div class="app-nav-inner">
+      <div class="app-nav-l">
+        <i class="fas fa-calendar-check"></i>
+        <span>订阅管理系统</span>
+        <span id="systemTimeDisplay"></span>
+      </div>
+      <div class="app-nav-r">
+        <a href="/admin" class="active"><i class="fas fa-list"></i>订阅列表</a>
+        <a href="/admin/config"><i class="fas fa-cog"></i>系统配置</a>
+        <a href="/api/logout" class="logout"><i class="fas fa-sign-out-alt"></i>退出登录</a>
       </div>
     </div>
   </nav>
-  
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-      <div>
-        <h2 class="text-2xl font-bold text-gray-800">订阅列表</h2>
-        <p class="text-sm text-gray-500 mt-1">使用搜索与分类快速定位订阅，开启农历显示可同步查看农历日期</p>
-      </div>
-      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 w-full">
-        <div class="flex flex-col sm:flex-row sm:items-center gap-3 w-full lg:flex-1 lg:max-w-2xl">
-          <div class="relative flex-1 min-w-[200px] lg:max-w-md">
-            <input type="text" id="searchKeyword" placeholder="搜索名称、类型或备注..." class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
-              <i class="fas fa-search"></i>
-            </span>
-          </div>
-          <div class="sm:w-44 lg:w-40">
-            <select id="categoryFilter" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white">
-              <option value="">全部分类</option>
-            </select>
-          </div>
+
+  <main class="card" style="max-width:1280px;margin:1.5rem auto;padding:0;overflow:hidden">
+    <div style="padding:1.25rem 1.5rem">
+      <div class="page-head" style="margin-bottom:0">
+        <div>
+          <h2>订阅列表</h2>
+          <p>使用搜索与分类快速定位订阅，开启农历显示可同步查看农历日期</p>
         </div>
-        <div class="flex items-center space-x-3 lg:space-x-4">
-        <label class="lunar-toggle">
-          <input type="checkbox" id="listShowLunar" class="form-checkbox h-4 w-4 text-indigo-600 shrink-0">
-          <span class="text-gray-700">显示农历</span>
-        </label>
-        <button id="addSubscriptionBtn" class="btn-primary text-white px-4 py-2 rounded-md text-sm font-medium flex items-center shrink-0">
-          <i class="fas fa-plus mr-2"></i>添加新订阅
-        </button>
-      </div>
-      </div>
-    </div>
-    
-    <div class="table-container bg-white rounded-lg overflow-hidden">
-      <div class="overflow-x-auto">
-        <table class="w-full divide-y divide-gray-200 responsive-table">
-          <thead class="bg-gray-50">
-            <tr>
-              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 25%;">
-                名称
-              </th>
-              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 15%;">
-                类型
-              </th>
-              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 20%;">
-                到期时间 <i class="fas fa-sort-up ml-1 text-indigo-500" title="按到期时间升序排列"></i>
-              </th>
-              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 15%;">
-                提醒设置
-              </th>
-              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 10%;">
-                状态
-              </th>
-              <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider" style="width: 15%;">
-                操作
-              </th>
-            </tr>
-          </thead>
-        <tbody id="subscriptionsBody" class="bg-white divide-y divide-gray-200">
-        </tbody>
-        </table>
+        <div class="page-tools">
+          <div class="search-wrap" style="min-width:220px">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchKeyword" placeholder="搜索名称、类型或备注...">
+          </div>
+          <select id="categoryFilter" class="filter-select" style="width:auto">
+            <option value="">全部分类</option>
+          </select>
+          <label class="lunar-toggle" style="white-space:nowrap">
+            <input type="checkbox" id="listShowLunar">
+            <span>显示农历</span>
+          </label>
+          <button id="addSubscriptionBtn" class="btn btn-primary"><i class="fas fa-plus"></i>添加新订阅</button>
+        </div>
       </div>
     </div>
-  </div>
+    <div class="table-container" style="border-top:1px solid var(--border);border-radius:0">
+      <table class="responsive-table">
+        <thead>
+          <tr>
+            <th style="width:25%">名称</th>
+            <th style="width:15%">类型</th>
+            <th style="width:20%">到期时间</th>
+            <th style="width:15%">提醒设置</th>
+            <th style="width:10%">状态</th>
+            <th style="width:15%">操作</th>
+          </tr>
+        </thead>
+        <tbody id="subscriptionsBody"></tbody>
+      </table>
+    </div>
+  </main>
 
   <!-- 添加/编辑订阅的模态框 -->
-  <div id="subscriptionModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 modal-container hidden flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-screen overflow-y-auto">
-      <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 rounded-t-lg">
-        <div class="flex items-center justify-between">
-          <h3 id="modalTitle" class="text-lg font-medium text-gray-900">添加新订阅</h3>
-          <button id="closeModal" class="text-gray-400 hover:text-gray-600">
-            <i class="fas fa-times text-xl"></i>
-          </button>
-        </div>
+  <div id="subscriptionModal" class="modal-container hidden">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalTitle">添加新订阅</h3>
+        <button id="closeModal" class="modal-close"><i class="fas fa-times"></i></button>
       </div>
-      
-      <form id="subscriptionForm" class="p-6 space-y-6">
+      <form id="subscriptionForm">
+        <div class="modal-body">
         <input type="hidden" id="subscriptionId">
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">订阅名称 *</label>
-            <input type="text" id="name" required
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-            <div class="error-message text-red-500" data-for="reminderValue"></div>
-          </div>
-          
-          <div>
-            <label for="customType" class="block text-sm font-medium text-gray-700 mb-1">订阅类型</label>
-            <input type="text" id="customType" placeholder="例如：流媒体、云服务、软件、生日等"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-            <div class="error-message text-red-500"></div>
-          </div>
 
-          <div>
-            <label for="category" class="block text-sm font-medium text-gray-700 mb-1">分类标签</label>
-            <input type="text" id="category" placeholder="例如：个人、家庭、公司"
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-            <p class="mt-1 text-xs text-gray-500">可输入多个标签并使用“/”分隔，便于筛选和统计</p>
-            <div class="error-message text-red-500"></div>
+        <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;margin-bottom:1rem">
+          <div class="field-group">
+            <label class="field-label" for="name">订阅名称 *</label>
+            <input type="text" id="name" required class="field-input">
+            <div class="error-message" data-for="reminderValue"></div>
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="customType">订阅类型</label>
+            <input type="text" id="customType" placeholder="例如：流媒体、云服务、软件、生日等" class="field-input">
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="category">分类标签</label>
+            <input type="text" id="category" placeholder="例如：个人、家庭、公司" class="field-input">
+            <p class="field-hint">多个标签用“/”分隔</p>
           </div>
         </div>
-        
-        <div class="mb-4 flex items-center space-x-6">
-          <label class="lunar-toggle">
-            <input type="checkbox" id="showLunar" class="form-checkbox h-4 w-4 text-indigo-600">
-            <span class="text-gray-700">显示农历日期</span>
-          </label>
-          <label class="lunar-toggle">
-            <input type="checkbox" id="useLunar" class="form-checkbox h-4 w-4 text-indigo-600">
-            <span class="text-gray-700">周期按农历</span>
-          </label>
+
+        <div class="field-group" style="margin-bottom:1rem">
+          <label class="lunar-toggle"><input type="checkbox" id="showLunar"><span>显示农历日期</span></label>
+          <label class="lunar-toggle" style="margin-left:1.5rem"><input type="checkbox" id="useLunar"><span>周期按农历</span></label>
         </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div class="md:col-span-2">
-            <label for="startDate" class="block text-sm font-medium text-gray-700 mb-1">开始日期</label>
+        <div class="grid" style="grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:1rem;margin-bottom:1rem">
+          <div class="field-group" style="grid-column:span 2">
+            <label class="field-label" for="startDate">开始日期</label>
             <div class="relative">
-              <input type="text" id="startDate"
-                class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="YYYY-MM-DD 或点击右侧图标选择">
-              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <i class="fas fa-calendar text-gray-400"></i>
-              </div>
-                              <div id="startDatePicker" class="custom-date-picker hidden absolute top-full left-0 z-50 bg-white border border-gray-300 rounded-md shadow-lg p-6 min-w-[380px]">
-                  <div class="flex justify-between items-center mb-4">
-                    <button type="button" id="startDatePrevMonth" class="text-gray-600 hover:text-gray-800">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <div class="flex items-center space-x-2">
-                      <span id="startDateMonth" class="font-medium text-gray-900 cursor-pointer hover:text-indigo-600">1月</span>
-                      <span class="text-gray-400">|</span>
-                      <span id="startDateYear" class="font-medium text-gray-900 cursor-pointer hover:text-indigo-600">2024</span>
-                    </div>
-                    <button type="button" id="startDateNextMonth" class="text-gray-600 hover:text-gray-800">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
+              <input type="text" id="startDate" class="field-input" placeholder="YYYY-MM-DD" style="padding-right:2rem">
+              <div class="absolute" style="right:.5rem;top:50%;transform:translateY(-50%);color:var(--text-3);pointer-events:none"><i class="fas fa-calendar"></i></div>
+              <div id="startDatePicker" class="custom-date-picker hidden" style="position:absolute;top:100%;left:0;z-index:50;margin-top:4px">
+                <div class="flex" style="justify-content:space-between;align-items:center;margin-bottom:1rem">
+                  <button type="button" id="startDatePrevMonth" class="btn" style="background:none;color:var(--text-2);padding:.25rem"><i class="fas fa-chevron-left"></i></button>
+                  <div class="flex" style="align-items:center;gap:.5rem">
+                    <span id="startDateMonth" style="cursor:pointer;font-weight:500">1月</span>
+                    <span style="color:var(--text-3)">|</span>
+                    <span id="startDateYear" style="cursor:pointer;font-weight:500">2024</span>
                   </div>
-                  
-                  <!-- 月份选择器 -->
-                  <div id="startDateMonthPicker" class="hidden mb-4">
-                    <div class="flex justify-between items-center mb-3">
-                      <span class="font-medium text-gray-900">选择月份</span>
-                      <button type="button" id="startDateBackToCalendar" class="text-gray-600 hover:text-gray-800">
-                        <i class="fas fa-times"></i>
-                      </button>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2">
-                      <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="0">1月</button>
-                      <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="1">2月</button>
-                      <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="2">3月</button>
-                      <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="3">4月</button>
-                      <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="4">5月</button>
-                      <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="5">6月</button>
-                      <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="6">7月</button>
-                      <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="7">8月</button>
-                      <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="8">9月</button>
-                      <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="9">10月</button>
-                      <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="10">11月</button>
-                      <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="11">12月</button>
-                    </div>
+                  <button type="button" id="startDateNextMonth" class="btn" style="background:none;color:var(--text-2);padding:.25rem"><i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div id="startDateMonthPicker" class="hidden" style="margin-bottom:1rem">
+                  <div class="flex" style="justify-content:space-between;align-items:center;margin-bottom:.5rem">
+                    <span style="font-weight:500">选择月份</span>
+                    <button type="button" id="startDateBackToCalendar" class="btn" style="background:none;color:var(--text-2);padding:.25rem"><i class="fas fa-times"></i></button>
                   </div>
-                  
-                  <!-- 年份选择器 -->
-                  <div id="startDateYearPicker" class="hidden mb-4">
-                    <div class="flex justify-between items-center mb-3">
-                      <span class="font-medium text-gray-900">选择年份</span>
-                      <button type="button" id="startDateBackToCalendarFromYear" class="text-gray-600 hover:text-gray-800">
-                        <i class="fas fa-times"></i>
-                      </button>
-                    </div>
-                    <div class="flex justify-between items-center mb-3">
-                      <button type="button"  id="startDatePrevYearDecade" class="text-gray-600 hover:text-gray-800">
-                        <i class="fas fa-chevron-left"></i>
-                      </button>
-                      <span id="startDateYearRange" class="font-medium text-gray-900">2020-2029</span>
-                      <button type="button"  id="startDateNextYearDecade" class="text-gray-600 hover:text-gray-800">
-                        <i class="fas fa-chevron-right"></i>
-                      </button>
-                    </div>
-                    <div id="startDateYearGrid" class="grid grid-cols-3 gap-2">
-                      <!-- 年份按钮将通过JavaScript动态生成 -->
-                    </div>
-                  </div>
-                  
-                  <div class="grid grid-cols-7 gap-2 mb-3">
-                    <div class="text-center text-sm font-semibold text-gray-600 py-2">日</div>
-                    <div class="text-center text-sm font-semibold text-gray-600 py-2">一</div>
-                    <div class="text-center text-sm font-semibold text-gray-600 py-2">二</div>
-                    <div class="text-center text-sm font-semibold text-gray-600 py-2">三</div>
-                    <div class="text-center text-sm font-semibold text-gray-600 py-2">四</div>
-                    <div class="text-center text-sm font-semibold text-gray-600 py-2">五</div>
-                    <div class="text-center text-sm font-semibold text-gray-600 py-2">六</div>
-                  </div>
-                  <div id="startDateCalendar" class="grid grid-cols-7 gap-2"></div>
-                  
-                  <!-- 回到今天按钮 -->
-                  <div class="mt-4 pt-3 border-t border-gray-200">
-                    <button type="button" id="startDateGoToToday" class="w-full px-3 py-2 text-sm text-indigo-600 hover:bg-indigo-50 rounded-md">
-                      <i class="fas fa-calendar-day mr-2"></i>回到今天
-                    </button>
+                  <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:.375rem">
+                    <button type="button" class="month-option" data-month="0">1月</button><button type="button" class="month-option" data-month="1">2月</button><button type="button" class="month-option" data-month="2">3月</button>
+                    <button type="button" class="month-option" data-month="3">4月</button><button type="button" class="month-option" data-month="4">5月</button><button type="button" class="month-option" data-month="5">6月</button>
+                    <button type="button" class="month-option" data-month="6">7月</button><button type="button" class="month-option" data-month="7">8月</button><button type="button" class="month-option" data-month="8">9月</button>
+                    <button type="button" class="month-option" data-month="9">10月</button><button type="button" class="month-option" data-month="10">11月</button><button type="button" class="month-option" data-month="11">12月</button>
                   </div>
                 </div>
+                <div id="startDateYearPicker" class="hidden" style="margin-bottom:1rem">
+                  <div class="flex" style="justify-content:space-between;align-items:center;margin-bottom:.5rem">
+                    <span style="font-weight:500">选择年份</span>
+                    <button type="button" id="startDateBackToCalendarFromYear" class="btn" style="background:none;color:var(--text-2);padding:.25rem"><i class="fas fa-times"></i></button>
+                  </div>
+                  <div class="flex" style="justify-content:space-between;align-items:center;margin-bottom:.5rem">
+                    <button type="button" id="startDatePrevYearDecade" class="btn" style="background:none;color:var(--text-2);padding:.25rem"><i class="fas fa-chevron-left"></i></button>
+                    <span id="startDateYearRange" style="font-weight:500">2020-2029</span>
+                    <button type="button" id="startDateNextYearDecade" class="btn" style="background:none;color:var(--text-2);padding:.25rem"><i class="fas fa-chevron-right"></i></button>
+                  </div>
+                  <div id="startDateYearGrid" class="grid" style="grid-template-columns:repeat(3,1fr);gap:.375rem"></div>
+                </div>
+                <div class="grid" style="grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:.5rem">
+                  <div style="text-align:center;font-size:.75rem;font-weight:600;color:var(--text-2);padding:.25rem">日</div>
+                  <div style="text-align:center;font-size:.75rem;font-weight:600;color:var(--text-2);padding:.25rem">一</div>
+                  <div style="text-align:center;font-size:.75rem;font-weight:600;color:var(--text-2);padding:.25rem">二</div>
+                  <div style="text-align:center;font-size:.75rem;font-weight:600;color:var(--text-2);padding:.25rem">三</div>
+                  <div style="text-align:center;font-size:.75rem;font-weight:600;color:var(--text-2);padding:.25rem">四</div>
+                  <div style="text-align:center;font-size:.75rem;font-weight:600;color:var(--text-2);padding:.25rem">五</div>
+                  <div style="text-align:center;font-size:.75rem;font-weight:600;color:var(--text-2);padding:.25rem">六</div>
+                </div>
+                <div id="startDateCalendar" class="grid" style="grid-template-columns:repeat(7,1fr);gap:2px"></div>
+                <div style="margin-top:.75rem;padding-top:.5rem;border-top:1px solid var(--border)">
+                  <button type="button" id="startDateGoToToday" class="btn" style="width:100%;justify-content:center;color:var(--accent);background:var(--accent-soft)">
+                    <i class="fas fa-calendar-day"></i>回到今天
+                  </button>
+                </div>
+              </div>
             </div>
             <div id="startDateLunar" class="lunar-display"></div>
-            <div class="error-message text-red-500"></div>
+            <div class="error-message"></div>
           </div>
-          
-          <div>
-            <label for="periodValue" class="block text-sm font-medium text-gray-700 mb-1">周期数值 *</label>
-            <input type="number" id="periodValue" min="1" value="1" required
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-            <div class="error-message text-red-500"></div>
+
+          <div class="field-group">
+            <label class="field-label" for="periodValue">周期数值 *</label>
+            <input type="number" id="periodValue" min="1" value="1" required class="field-input">
+            <div class="error-message"></div>
           </div>
-          
-          <div>
-            <label for="periodUnit" class="block text-sm font-medium text-gray-700 mb-1">周期单位 *</label>
-            <select id="periodUnit" required
-              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+          <div class="field-group">
+            <label class="field-label" for="periodUnit">周期单位 *</label>
+            <select id="periodUnit" required class="field-select">
               <option value="day">天</option>
               <option value="month" selected>月</option>
               <option value="year">年</option>
             </select>
-            <div class="error-message text-red-500"></div>
+            <div class="error-message"></div>
           </div>
         </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label for="expiryDate" class="block text-sm font-medium text-gray-700 mb-1">到期日期 *</label>
+
+        <div class="grid" style="grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div class="field-group">
+            <label class="field-label" for="expiryDate">到期日期 *</label>
             <div class="relative">
-              <input type="text" id="expiryDate" required
-                class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                placeholder="YYYY-MM-DD 或点击右侧图标选择">
-              <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                <i class="fas fa-calendar text-gray-400"></i>
-              </div>
-              <div id="expiryDatePicker" class="custom-date-picker hidden absolute top-full left-0 z-50 bg-white border border-gray-300 rounded-md shadow-lg p-6 min-w-[380px]">
-                <div class="flex justify-between items-center mb-4">
-                  <button type="button" id="expiryDatePrevMonth" class="text-gray-600 hover:text-gray-800">
-                    <i class="fas fa-chevron-left"></i>
-                  </button>
-                  <div class="flex items-center space-x-2">
-                    <span id="expiryDateMonth" class="font-medium text-gray-900 cursor-pointer hover:text-indigo-600">1月</span>
-                    <span class="text-gray-400">|</span>
-                    <span id="expiryDateYear" class="font-medium text-gray-900 cursor-pointer hover:text-indigo-600">2024</span>
+              <input type="text" id="expiryDate" required class="field-input" placeholder="YYYY-MM-DD" style="padding-right:2rem">
+              <div class="absolute" style="right:.5rem;top:50%;transform:translateY(-50%);color:var(--text-3);pointer-events:none"><i class="fas fa-calendar"></i></div>
+              <div id="expiryDatePicker" class="custom-date-picker hidden" style="position:absolute;top:100%;left:0;z-index:50;margin-top:4px">
+                <div class="flex" style="justify-content:space-between;align-items:center;margin-bottom:1rem">
+                  <button type="button" id="expiryDatePrevMonth" class="btn" style="background:none;color:var(--text-2);padding:.25rem"><i class="fas fa-chevron-left"></i></button>
+                  <div class="flex" style="align-items:center;gap:.5rem">
+                    <span id="expiryDateMonth" style="cursor:pointer;font-weight:500">1月</span>
+                    <span style="color:var(--text-3)">|</span>
+                    <span id="expiryDateYear" style="cursor:pointer;font-weight:500">2024</span>
                   </div>
-                  <button type="button" id="expiryDateNextMonth" class="text-gray-600 hover:text-gray-800">
-                    <i class="fas fa-chevron-right"></i>
-                  </button>
+                  <button type="button" id="expiryDateNextMonth" class="btn" style="background:none;color:var(--text-2);padding:.25rem"><i class="fas fa-chevron-right"></i></button>
                 </div>
-                
-                <!-- 月份选择器 -->
-                <div id="expiryDateMonthPicker" class="hidden mb-4">
-                  <div class="flex justify-between items-center mb-3">
-                    <span class="font-medium text-gray-900">选择月份</span>
-                    <button type="button" id="expiryDateBackToCalendar" class="text-gray-600 hover:text-gray-800">
-                      <i class="fas fa-times"></i>
-                    </button>
+                <div id="expiryDateMonthPicker" class="hidden" style="margin-bottom:1rem">
+                  <div class="flex" style="justify-content:space-between;align-items:center;margin-bottom:.5rem">
+                    <span style="font-weight:500">选择月份</span>
+                    <button type="button" id="expiryDateBackToCalendar" class="btn" style="background:none;color:var(--text-2);padding:.25rem"><i class="fas fa-times"></i></button>
                   </div>
-                  <div class="grid grid-cols-3 gap-2">
-                    <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="0">1月</button>
-                    <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="1">2月</button>
-                    <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="2">3月</button>
-                    <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="3">4月</button>
-                    <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="4">5月</button>
-                    <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="5">6月</button>
-                    <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="6">7月</button>
-                    <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="7">8月</button>
-                    <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="8">9月</button>
-                    <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="9">10月</button>
-                    <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="10">11月</button>
-                    <button type="button" class="month-option px-3 py-2 text-sm rounded hover:bg-gray-100" data-month="11">12月</button>
+                  <div class="grid" style="grid-template-columns:repeat(3,1fr);gap:.375rem">
+                    <button type="button" class="month-option" data-month="0">1月</button><button type="button" class="month-option" data-month="1">2月</button><button type="button" class="month-option" data-month="2">3月</button>
+                    <button type="button" class="month-option" data-month="3">4月</button><button type="button" class="month-option" data-month="4">5月</button><button type="button" class="month-option" data-month="5">6月</button>
+                    <button type="button" class="month-option" data-month="6">7月</button><button type="button" class="month-option" data-month="7">8月</button><button type="button" class="month-option" data-month="8">9月</button>
+                    <button type="button" class="month-option" data-month="9">10月</button><button type="button" class="month-option" data-month="10">11月</button><button type="button" class="month-option" data-month="11">12月</button>
                   </div>
                 </div>
-                
-                <!-- 年份选择器 -->
-                <div id="expiryDateYearPicker" class="hidden mb-4">
-                  <div class="flex justify-between items-center mb-3">
-                    <span class="font-medium text-gray-900">选择年份</span>
-                    <button type="button" id="expiryDateBackToCalendarFromYear" class="text-gray-600 hover:text-gray-800">
-                      <i class="fas fa-times"></i>
-                    </button>
+                <div id="expiryDateYearPicker" class="hidden" style="margin-bottom:1rem">
+                  <div class="flex" style="justify-content:space-between;align-items:center;margin-bottom:.5rem">
+                    <span style="font-weight:500">选择年份</span>
+                    <button type="button" id="expiryDateBackToCalendarFromYear" class="btn" style="background:none;color:var(--text-2);padding:.25rem"><i class="fas fa-times"></i></button>
                   </div>
-                  <div class="flex justify-between items-center mb-3">
-                    <button  type="button" id="expiryDatePrevYearDecade" class="text-gray-600 hover:text-gray-800">
-                      <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <span id="expiryDateYearRange" class="font-medium text-gray-900">2020-2029</span>
-                    <button  type="button"  id="expiryDateNextYearDecade" class="text-gray-600 hover:text-gray-800">
-                      <i class="fas fa-chevron-right"></i>
-                    </button>
+                  <div class="flex" style="justify-content:space-between;align-items:center;margin-bottom:.5rem">
+                    <button type="button" id="expiryDatePrevYearDecade" class="btn" style="background:none;color:var(--text-2);padding:.25rem"><i class="fas fa-chevron-left"></i></button>
+                    <span id="expiryDateYearRange" style="font-weight:500">2020-2029</span>
+                    <button type="button" id="expiryDateNextYearDecade" class="btn" style="background:none;color:var(--text-2);padding:.25rem"><i class="fas fa-chevron-right"></i></button>
                   </div>
-                  <div id="expiryDateYearGrid" class="grid grid-cols-3 gap-2">
-                    <!-- 年份按钮将通过JavaScript动态生成 -->
-                  </div>
+                  <div id="expiryDateYearGrid" class="grid" style="grid-template-columns:repeat(3,1fr);gap:.375rem"></div>
                 </div>
-                
-                <div class="grid grid-cols-7 gap-2 mb-3">
-                  <div class="text-center text-sm font-semibold text-gray-600 py-2">日</div>
-                  <div class="text-center text-sm font-semibold text-gray-600 py-2">一</div>
-                  <div class="text-center text-sm font-semibold text-gray-600 py-2">二</div>
-                  <div class="text-center text-sm font-semibold text-gray-600 py-2">三</div>
-                  <div class="text-center text-sm font-semibold text-gray-600 py-2">四</div>
-                  <div class="text-center text-sm font-semibold text-gray-600 py-2">五</div>
-                  <div class="text-center text-sm font-semibold text-gray-600 py-2">六</div>
+                <div class="grid" style="grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:.5rem">
+                  <div style="text-align:center;font-size:.75rem;font-weight:600;color:var(--text-2);padding:.25rem">日</div>
+                  <div style="text-align:center;font-size:.75rem;font-weight:600;color:var(--text-2);padding:.25rem">一</div>
+                  <div style="text-align:center;font-size:.75rem;font-weight:600;color:var(--text-2);padding:.25rem">二</div>
+                  <div style="text-align:center;font-size:.75rem;font-weight:600;color:var(--text-2);padding:.25rem">三</div>
+                  <div style="text-align:center;font-size:.75rem;font-weight:600;color:var(--text-2);padding:.25rem">四</div>
+                  <div style="text-align:center;font-size:.75rem;font-weight:600;color:var(--text-2);padding:.25rem">五</div>
+                  <div style="text-align:center;font-size:.75rem;font-weight:600;color:var(--text-2);padding:.25rem">六</div>
                 </div>
-                <div id="expiryDateCalendar" class="grid grid-cols-7 gap-2"></div>
-                
-                <!-- 回到今天按钮 -->
-                <div class="mt-4 pt-3 border-t border-gray-200">
-                  <button type="button" id="expiryDateGoToToday" class="w-full px-3 py-2 text-sm text-indigo-600 hover:bg-indigo-50 rounded-md">
-                    <i class="fas fa-calendar-day mr-2"></i>回到今天
+                <div id="expiryDateCalendar" class="grid" style="grid-template-columns:repeat(7,1fr);gap:2px"></div>
+                <div style="margin-top:.75rem;padding-top:.5rem;border-top:1px solid var(--border)">
+                  <button type="button" id="expiryDateGoToToday" class="btn" style="width:100%;justify-content:center;color:var(--accent);background:var(--accent-soft)">
+                    <i class="fas fa-calendar-day"></i>回到今天
                   </button>
                 </div>
               </div>
             </div>
             <div id="expiryDateLunar" class="lunar-display"></div>
-            <div class="error-message text-red-500"></div>
-            <div class="flex justify-end mt-2">
-              <button type="button" id="calculateExpiryBtn" 
-                class="btn-primary text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap">
-                <i class="fas fa-calculator mr-2"></i>自动计算到期日期
-              </button>
+            <div class="error-message"></div>
+            <div style="margin-top:.5rem">
+              <button type="button" id="calculateExpiryBtn" class="btn btn-primary"><i class="fas fa-calculator"></i>自动计算到期日期</button>
             </div>
           </div>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
           <div>
-            <label for="reminderValue" class="block text-sm font-medium text-gray-700 mb-1">提醒提前量</label>
-            <div class="flex space-x-3">
-              <input type="number" id="reminderValue" min="0" value="7"
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
-              <select id="reminderUnit"
-                class="w-32 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white">
-                <option value="day" selected>天</option>
-                <option value="hour">小时</option>
-              </select>
+            <div class="field-group">
+              <label class="field-label" for="reminderValue">提醒提前量</label>
+              <div class="flex" style="gap:.5rem">
+                <input type="number" id="reminderValue" min="0" value="7" class="field-input">
+                <select id="reminderUnit" class="field-select" style="width:7rem">
+                  <option value="day" selected>天</option>
+                  <option value="hour">小时</option>
+                </select>
+              </div>
+              <p class="field-hint">0 = 仅在到期时提醒</p>
+              <div class="error-message"></div>
             </div>
-            <p class="text-xs text-gray-500 mt-1">0 = 仅在到期时提醒；选择“小时”需要将 Worker 定时任务调整为小时级执行</p>
-            <div class="error-message text-red-500"></div>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-3">选项设置</label>
-            <div class="space-y-2">
-              <label class="inline-flex items-center">
-                <input type="checkbox" id="isActive" checked 
-                  class="form-checkbox h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                <span class="ml-2 text-sm text-gray-700">启用订阅</span>
-              </label>
-              <label class="inline-flex items-center">
-                <input type="checkbox" id="autoRenew" checked 
-                  class="form-checkbox h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
-                <span class="ml-2 text-sm text-gray-700">自动续订</span>
-              </label>
+            <div class="field-group">
+              <label class="field-label">选项设置</label>
+              <div class="flex" style="gap:1rem;flex-wrap:wrap;margin-top:.375rem">
+                <label style="display:inline-flex;align-items:center;gap:.375rem;font-size:.8125rem">
+                  <input type="checkbox" id="isActive" checked style="accent-color:var(--accent);width:1rem;height:1rem">启用订阅
+                </label>
+                <label style="display:inline-flex;align-items:center;gap:.375rem;font-size:.8125rem">
+                  <input type="checkbox" id="autoRenew" checked style="accent-color:var(--accent);width:1rem;height:1rem">自动续订
+                </label>
+              </div>
             </div>
           </div>
         </div>
-        
-        <div>
-          <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">备注</label>
-          <textarea id="notes" rows="3" placeholder="可添加相关备注信息..."
-            class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"></textarea>
-          <div class="error-message text-red-500"></div>
+
+        <div class="field-group">
+          <label class="field-label" for="notes">备注</label>
+          <textarea id="notes" rows="3" placeholder="可添加相关备注信息..." class="field-input"></textarea>
+          <div class="error-message"></div>
         </div>
-        
-        <div class="flex justify-end space-x-3 pt-4 border-t border-gray-200">
-          <button type="button" id="cancelBtn" 
-            class="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50">
-            取消
-          </button>
-          <button type="submit" 
-            class="btn-primary text-white px-4 py-2 rounded-md text-sm font-medium">
-            <i class="fas fa-save mr-2"></i>保存
-          </button>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancelBtn" class="btn btn-secondary">取消</button>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>保存</button>
         </div>
       </form>
     </div>
@@ -3120,373 +2883,191 @@ const configPage = `
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
   <style>
-    .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: all 0.3s; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
-    .btn-secondary { background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); transition: all 0.3s; }
-    .btn-secondary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); }
-    
-    .toast {
-      position: fixed; top: 20px; right: 20px; padding: 12px 20px; border-radius: 8px;
-      color: white; font-weight: 500; z-index: 1000; transform: translateX(400px);
-      transition: all 0.3s ease-in-out; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    :root {
+      --bg: #f6f7f9; --surface: #fff; --surface-2: #f8f9fc;
+      --border: #e5e9f0; --text: #1e2430; --text-2: #5b6472; --text-3: #9ca3af;
+      --accent: #3166d9; --accent-hover: #2852b8; --accent-soft: #eff2fd;
+      --success: #059669; --danger: #dc2626; --warning: #d97706; --info: #3b82f6;
+      --radius: 10px; --radius-card: 12px; --shadow-sm: 0 1px 2px rgba(16,24,40,.04), 0 1px 3px rgba(16,24,40,.06);
+      --shadow-lg: 0 10px 15px -3px rgba(16,24,40,.06), 0 4px 6px -2px rgba(16,24,40,.04);
     }
-    .toast.show { transform: translateX(0); }
-    .toast.success { background-color: #10b981; }
-    .toast.error { background-color: #ef4444; }
-    .toast.info { background-color: #3b82f6; }
-    .toast.warning { background-color: #f59e0b; }
-    
-    .config-section { 
-      border: 1px solid #e5e7eb; 
-      border-radius: 8px; 
-      padding: 16px; 
-      margin-bottom: 24px; 
-    }
-    .config-section.active { 
-      background-color: #f8fafc; 
-      border-color: #6366f1; 
-    }
-    .config-section.inactive { 
-      background-color: #f9fafb; 
-      opacity: 0.7; 
-    }
+    body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); margin:0; color:var(--text); }
+    .app-nav { background:var(--surface); border-bottom:1px solid var(--border); height:56px; display:flex; align-items:center; }
+    .app-nav-inner { max-width:1280px; width:100%; margin:0 auto; padding:0 1.5rem; display:flex; justify-content:space-between; align-items:center; }
+    .app-nav-l { display:flex; align-items:center; gap:.5rem; }
+    .app-nav-l i { color:var(--accent); font-size:1.25rem; }
+    .app-nav-l span { font-weight:600; font-size:1rem; color:var(--text); }
+    .app-nav-r { display:flex; align-items:center; gap:.25rem; }
+    .app-nav-r a { display:flex; align-items:center; gap:.375rem; padding:.5rem .75rem; font-size:.8125rem; font-weight:500; color:var(--text-2); text-decoration:none; border-radius:6px; transition:background .12s,color .12s; }
+    .app-nav-r a:hover { background:var(--surface-2); color:var(--text); }
+    .app-nav-r a.active { color:var(--accent); background:var(--accent-soft); }
+    .app-nav-r .logout { color:var(--text-3); }
+    .app-nav-r .logout:hover { color:var(--danger); background:#fef2f2; }
+    #systemTimeDisplay { font-size:.8125rem; color:var(--text-2); margin-right:.5rem; }
+    .card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-card); box-shadow:var(--shadow-sm); }
+    .btn { display:inline-flex; align-items:center; gap:.375rem; padding:.5rem .875rem; font-size:.8125rem; font-weight:500; border:none; border-radius:8px; cursor:pointer; transition:background .12s; text-decoration:none; white-space:nowrap; }
+    .btn-primary { background:var(--accent); color:#fff; } .btn-primary:hover { background:var(--accent-hover); }
+    .btn-secondary { background:var(--surface); color:var(--text-2); border:1px solid var(--border); } .btn-secondary:hover { background:var(--surface-2); }
+    .btn-info { background:var(--info); color:#fff; } .btn-info:hover { background:#2563eb; }
+    .field-label { display:block; font-size:.8125rem; font-weight:500; color:var(--text); margin-bottom:.375rem; }
+    .field-input { width:100%; padding:.5rem .75rem; font-size:.875rem; border:1px solid var(--border); border-radius:8px; outline:none; transition:border-color .15s; box-sizing:border-box; }
+    .field-input:focus, .field-select:focus { border-color:var(--accent); box-shadow:0 0 0 3px rgba(49,102,217,.15); }
+    .field-select { width:100%; padding:.5rem .75rem; font-size:.875rem; border:1px solid var(--border); border-radius:8px; outline:none; background:var(--surface); transition:border-color .15s; box-sizing:border-box; }
+    .field-hint { font-size:.75rem; color:var(--text-3); margin-top:.25rem; }
+    .toast { position:fixed; top:1rem; right:1rem; padding:.75rem 1rem; border-radius:8px; color:#fff; font-weight:500; z-index:500; transform:translateX(400px); transition:transform .25s ease; box-shadow:0 4px 12px rgba(30,36,48,.15); display:flex; align-items:center; gap:.5rem; font-size:.875rem; }
+    .toast.show { transform:translateX(0); }
+    .toast.success { background:var(--success); } .toast.error { background:var(--danger); } .toast.info { background:var(--info); } .toast.warning { background:var(--warning); }
+    .config-section { border:1px solid var(--border); border-radius:var(--radius); padding:1rem; margin-bottom:1.5rem; }
+    .config-section.active { background:var(--accent-soft); border-color:var(--accent); }
+    .config-section.inactive { opacity:.6; }
   </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body>
   <div id="toast-container"></div>
-
-  <nav class="bg-white shadow-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between h-16">
-        <div class="flex items-center">
-          <i class="fas fa-calendar-check text-indigo-600 text-2xl mr-2"></i>
-          <span class="font-bold text-xl text-gray-800">订阅管理系统</span>
-          <span id="systemTimeDisplay" class="ml-4 text-base text-indigo-600 font-normal"></span>
-        </div>
-        <div class="flex items-center space-x-4">
-          <a href="/admin" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
-            <i class="fas fa-list mr-1"></i>订阅列表
-          </a>
-          <a href="/admin/config" class="text-indigo-600 border-b-2 border-indigo-600 px-3 py-2 rounded-md text-sm font-medium">
-            <i class="fas fa-cog mr-1"></i>系统配置
-          </a>
-          <a href="/api/logout" class="text-gray-700 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
-            <i class="fas fa-sign-out-alt mr-1"></i>退出登录
-          </a>
-        </div>
+  
+  <nav class="app-nav">
+    <div class="app-nav-inner">
+      <div class="app-nav-l">
+        <i class="fas fa-calendar-check"></i>
+        <span>订阅管理系统</span>
+        <span id="systemTimeDisplay"></span>
+      </div>
+      <div class="app-nav-r">
+        <a href="/admin"><i class="fas fa-list"></i>订阅列表</a>
+        <a href="/admin/config" class="active"><i class="fas fa-cog"></i>系统配置</a>
+        <a href="/api/logout" class="logout"><i class="fas fa-sign-out-alt"></i>退出登录</a>
       </div>
     </div>
   </nav>
   
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="bg-white rounded-lg shadow-md p-6">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6">系统配置</h2>
-      
-      <form id="configForm" class="space-y-8">
-        <div class="border-b border-gray-200 pb-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">管理员账户</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label for="adminUsername" class="block text-sm font-medium text-gray-700">用户名</label>
-              <input type="text" id="adminUsername" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-            </div>
-            <div>
-              <label for="adminPassword" class="block text-sm font-medium text-gray-700">密码</label>
-              <input type="password" id="adminPassword" placeholder="如不修改密码，请留空" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              <p class="mt-1 text-sm text-gray-500">留空表示不修改当前密码</p>
-            </div>
+  <main class="card" style="max-width:960px;margin:1.5rem auto;padding:1.5rem;overflow:hidden">
+    <h2 style="font-size:1.25rem;font-weight:600;margin:0 0 1.5rem 0;color:var(--text)">系统配置</h2>
+    
+    <form id="configForm">
+      <div class="config-section">
+        <h3 class="field-label" style="font-size:1rem;margin-bottom:1rem">管理员账户</h3>
+        <div class="grid" style="grid-template-columns:1fr 1fr;gap:1rem">
+          <div><label class="field-label" for="adminUsername">用户名</label><input type="text" id="adminUsername" class="field-input"></div>
+          <div><label class="field-label" for="adminPassword">密码</label><input type="password" id="adminPassword" class="field-input" placeholder="如不修改密码，请留空"><p class="field-hint">留空表示不修改当前密码</p></div>
+        </div>
+      </div>
+      <div class="config-section">
+        <h3 class="field-label" style="font-size:1rem;margin-bottom:1rem">显示设置</h3>
+        <label style="display:inline-flex;align-items:center;gap:.375rem;font-size:.875rem"><input type="checkbox" id="showLunarGlobal" checked style="accent-color:var(--accent);width:1rem;height:1rem">在通知中显示农历日期</label>
+        <p class="field-hint">控制是否在通知消息中包含农历日期信息</p>
+      </div>
+      <div class="config-section">
+        <h3 class="field-label" style="font-size:1rem;margin-bottom:1rem">时区设置</h3>
+        <label class="field-label" for="timezone">时区选择</label>
+        <select id="timezone" name="timezone" class="field-select">
+          <option value="UTC">世界标准时间（UTC+0）</option>
+          <option value="Asia/Shanghai">中国标准时间（UTC+8）</option>
+          <option value="Asia/Hong_Kong">香港时间（UTC+8）</option>
+          <option value="Asia/Taipei">台北时间（UTC+8）</option>
+          <option value="Asia/Singapore">新加坡时间（UTC+8）</option>
+          <option value="Asia/Tokyo">日本时间（UTC+9）</option>
+          <option value="Asia/Seoul">韩国时间（UTC+9）</option>
+          <option value="America/New_York">美国东部时间（UTC-5）</option>
+          <option value="America/Chicago">美国中部时间（UTC-6）</option>
+          <option value="America/Denver">美国山地时间（UTC-7）</option>
+          <option value="America/Los_Angeles">美国太平洋时间（UTC-8）</option>
+          <option value="Europe/London">英国时间（UTC+0）</option>
+          <option value="Europe/Paris">巴黎时间（UTC+1）</option>
+          <option value="Europe/Berlin">柏林时间（UTC+1）</option>
+          <option value="Europe/Moscow">莫斯科时间（UTC+3）</option>
+          <option value="Australia/Sydney">悉尼时间（UTC+10）</option>
+          <option value="Australia/Melbourne">墨尔本时间（UTC+10）</option>
+          <option value="Pacific/Auckland">奥克兰时间（UTC+12）</option>
+        </select>
+        <p class="field-hint">选择需要使用时区，系统会按该时区计算剩余时间</p>
+      </div>
+      <div class="config-section">
+        <h3 class="field-label" style="font-size:1rem;margin-bottom:1rem">通知设置</h3>
+        <div class="grid" style="grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div><label class="field-label" for="notificationHours">通知时段（UTC）</label><input type="text" id="notificationHours" class="field-input" placeholder="例如：08, 12, 20 或输入 * 表示全天"><p class="field-hint">可输入多个小时，使用逗号或空格分隔</p></div>
+          <div style="background:var(--accent-soft);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem 1rem;font-size:.8125rem;color:var(--text-2)"><p style="font-weight:500;margin:0 0 .25rem 0">提示</p><p style="margin:0">Cron 以 UTC 计算，例如北京时间 08:00 需设置 Cron 为 <code>0 0 * * *</code></p></div>
+        </div>
+        <div style="margin-bottom:1rem">
+          <label class="field-label" style="margin-bottom:.5rem">通知方式（可多选）</label>
+          <div class="grid" style="grid-template-columns:1fr 1fr;gap:.5rem">
+            <label style="display:inline-flex;align-items:center;gap:.375rem;font-size:.875rem"><input type="checkbox" name="enabledNotifiers" value="telegram" style="accent-color:var(--accent);width:1rem;height:1rem">Telegram</label>
+            <label style="display:inline-flex;align-items:center;gap:.375rem;font-size:.875rem"><input type="checkbox" name="enabledNotifiers" value="notifyx" checked style="accent-color:var(--accent);width:1rem;height:1rem"><b>NotifyX</b></label>
+            <label style="display:inline-flex;align-items:center;gap:.375rem;font-size:.875rem"><input type="checkbox" name="enabledNotifiers" value="webhook" style="accent-color:var(--accent);width:1rem;height:1rem">Webhook 通知</label>
+            <label style="display:inline-flex;align-items:center;gap:.375rem;font-size:.875rem"><input type="checkbox" name="enabledNotifiers" value="wechatbot" style="accent-color:var(--accent);width:1rem;height:1rem">企业微信机器人</label>
+            <label style="display:inline-flex;align-items:center;gap:.375rem;font-size:.875rem"><input type="checkbox" name="enabledNotifiers" value="email" style="accent-color:var(--accent);width:1rem;height:1rem">邮件通知</label>
+            <label style="display:inline-flex;align-items:center;gap:.375rem;font-size:.875rem"><input type="checkbox" name="enabledNotifiers" value="bark" style="accent-color:var(--accent);width:1rem;height:1rem">Bark</label>
+          </div>
+          <div style="margin-top:.5rem;display:flex;flex-wrap:wrap;gap:.75rem;font-size:.8125rem">
+            <a href="https://www.notifyx.cn/" target="_blank" style="color:var(--accent)"><i class="fas fa-external-link-alt"></i> NotifyX官网</a>
+            <a href="https://webhook.site" target="_blank" style="color:var(--accent)"><i class="fas fa-external-link-alt"></i> Webhook 调试</a>
+            <a href="https://developer.work.weixin.qq.com/document/path/91770" target="_blank" style="color:var(--accent)"><i class="fas fa-external-link-alt"></i> 企业微信机器人文档</a>
+            <a href="https://developers.cloudflare.com/workers/tutorials/send-emails-with-resend/" target="_blank" style="color:var(--accent)"><i class="fas fa-external-link-alt"></i> 获取 Resend API Key</a>
+            <a href="https://apps.apple.com/cn/app/bark-customed-notifications/id1403753865" target="_blank" style="color:var(--accent)"><i class="fas fa-external-link-alt"></i> Bark iOS应用</a>
           </div>
         </div>
-        
-        <div class="border-b border-gray-200 pb-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">显示设置</h3>
-          
-          
-          <div class="mb-6">
-            <label class="inline-flex items-center">
-              <input type="checkbox" id="showLunarGlobal" class="form-checkbox h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" checked>
-              <span class="ml-2 text-sm text-gray-700">在通知中显示农历日期</span>
-            </label>
-            <p class="mt-1 text-sm text-gray-500">控制是否在通知消息中包含农历日期信息</p>
-          </div>
+        <div style="margin-bottom:1rem">
+          <label class="field-label" for="thirdPartyToken">第三方 API 访问令牌</label>
+          <div style="display:flex;gap:.5rem"><input type="text" id="thirdPartyToken" class="field-input" placeholder="建议使用随机字符串"><button type="button" id="generateThirdPartyToken" class="btn btn-info"><i class="fas fa-magic"></i>生成令牌</button></div>
+          <p class="field-hint">调用 /api/notify/{token} 接口时需携带此令牌</p>
         </div>
-
-
-        <div class="border-b border-gray-200 pb-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">时区设置</h3>
-          <div class="mb-6">
-          <label for="timezone" class="block text-sm font-medium text-gray-700 mb-1">时区选择</label>
-          <select id="timezone" name="timezone" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 bg-white">
-            <option value="UTC">世界标准时间（UTC+0）</option>
-            <option value="Asia/Shanghai">中国标准时间（UTC+8）</option>
-            <option value="Asia/Hong_Kong">香港时间（UTC+8）</option>
-            <option value="Asia/Taipei">台北时间（UTC+8）</option>
-            <option value="Asia/Singapore">新加坡时间（UTC+8）</option>
-            <option value="Asia/Tokyo">日本时间（UTC+9）</option>
-            <option value="Asia/Seoul">韩国时间（UTC+9）</option>
-            <option value="America/New_York">美国东部时间（UTC-5）</option>
-            <option value="America/Chicago">美国中部时间（UTC-6）</option>
-            <option value="America/Denver">美国山地时间（UTC-7）</option>
-            <option value="America/Los_Angeles">美国太平洋时间（UTC-8）</option>
-            <option value="Europe/London">英国时间（UTC+0）</option>
-            <option value="Europe/Paris">巴黎时间（UTC+1）</option>
-            <option value="Europe/Berlin">柏林时间（UTC+1）</option>
-            <option value="Europe/Moscow">莫斯科时间（UTC+3）</option>
-            <option value="Australia/Sydney">悉尼时间（UTC+10）</option>
-            <option value="Australia/Melbourne">墨尔本时间（UTC+10）</option>
-            <option value="Pacific/Auckland">奥克兰时间（UTC+12）</option>
-          </select>
-            <p class="mt-1 text-sm text-gray-500">选择需要使用时区，系统会按该时区计算剩余时间（提醒 Cron 仍基于 UTC，请在 Cloudflare 控制台换算触发时间）</p>
+        <div id="telegramConfig" class="config-section">
+          <h4 class="field-label" style="font-size:.9375rem;margin-bottom:.75rem">Telegram 配置</h4>
+          <div class="grid" style="grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem">
+            <div><label class="field-label" for="tgBotToken">Bot Token</label><input type="text" id="tgBotToken" class="field-input" placeholder="从 @BotFather 获取"></div>
+            <div><label class="field-label" for="tgChatId">Chat ID</label><input type="text" id="tgChatId" class="field-input" placeholder="可从 @userinfobot 获取"></div>
           </div>
+          <div style="text-align:right"><button type="button" id="testTelegramBtn" class="btn btn-secondary"><i class="fas fa-paper-plane"></i>测试 Telegram 通知</button></div>
         </div>
-
-        
-        <div class="border-b border-gray-200 pb-6">
-          <h3 class="text-lg font-medium text-gray-900 mb-4">通知设置</h3>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <div>
-              <label for="notificationHours" class="block text-sm font-medium text-gray-700">通知时段（UTC）</label>
-              <input type="text" id="notificationHours" placeholder="例如：08, 12, 20 或输入 * 表示全天"
-                class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              <p class="mt-1 text-sm text-gray-500">可输入多个小时，使用逗号或空格分隔；留空则默认每天执行一次任务即可</p>
-            </div>
-            <div class="bg-indigo-50 border border-indigo-100 rounded-md p-3 text-sm text-indigo-700">
-              <p class="font-medium mb-1">提示</p>
-              <p>Cloudflare Workers Cron 以 UTC 计算，例如北京时间 08:00 需设置 Cron 为 <code>0 0 * * *</code> 并在此填入 08。</p>
-              <p class="mt-1">若 Cron 已设置为每小时执行，可用该字段限制实际发送提醒的小时段。</p>
-            </div>
-          </div>
-          <div class="mb-6">
-            <label class="block text-sm font-medium text-gray-700 mb-3">通知方式（可多选）</label>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <label class="inline-flex items-center">
-                <input type="checkbox" name="enabledNotifiers" value="telegram" class="form-checkbox h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
-                <span class="ml-2 text-sm text-gray-700">Telegram</span>
-              </label>
-              <label class="inline-flex items-center">
-                <input type="checkbox" name="enabledNotifiers" value="notifyx" class="form-checkbox h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" checked>
-                <span class="ml-2 text-sm text-gray-700 font-semibold">NotifyX</span>
-              </label>
-              <label class="inline-flex items-center">
-                <input type="checkbox" name="enabledNotifiers" value="webhook" class="form-checkbox h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
-                <span class="ml-2 text-sm text-gray-700">Webhook 通知</span>
-              </label>
-              <label class="inline-flex items-center">
-                <input type="checkbox" name="enabledNotifiers" value="wechatbot" class="form-checkbox h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
-                <span class="ml-2 text-sm text-gray-700">企业微信机器人</span>
-              </label>
-              <label class="inline-flex items-center">
-                <input type="checkbox" name="enabledNotifiers" value="email" class="form-checkbox h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
-                <span class="ml-2 text-sm text-gray-700">邮件通知</span>
-              </label>
-              <label class="inline-flex items-center">
-                <input type="checkbox" name="enabledNotifiers" value="bark" class="form-checkbox h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
-                <span class="ml-2 text-sm text-gray-700">Bark</span>
-              </label>
-            </div>
-            <div class="mt-2 flex flex-wrap gap-4">
-              <a href="https://www.notifyx.cn/" target="_blank" class="text-indigo-600 hover:text-indigo-800 text-sm">
-                <i class="fas fa-external-link-alt ml-1"></i> NotifyX官网
-              </a>
-              <a href="https://webhook.site" target="_blank" class="text-indigo-600 hover:text-indigo-800 text-sm">
-                <i class="fas fa-external-link-alt ml-1"></i> Webhook 调试工具
-              </a>
-              <a href="https://developer.work.weixin.qq.com/document/path/91770" target="_blank" class="text-indigo-600 hover:text-indigo-800 text-sm">
-                <i class="fas fa-external-link-alt ml-1"></i> 企业微信机器人文档
-              </a>
-              <a href="https://developers.cloudflare.com/workers/tutorials/send-emails-with-resend/" target="_blank" class="text-indigo-600 hover:text-indigo-800 text-sm">
-                <i class="fas fa-external-link-alt ml-1"></i> 获取 Resend API Key
-              </a>
-              <a href="https://apps.apple.com/cn/app/bark-customed-notifications/id1403753865" target="_blank" class="text-indigo-600 hover:text-indigo-800 text-sm">
-                <i class="fas fa-external-link-alt ml-1"></i> Bark iOS应用
-              </a>
-            </div>
-          </div>
-
-          <div class="mb-6">
-            <label for="thirdPartyToken" class="block text-sm font-medium text-gray-700">第三方 API 访问令牌</label>
-            <div class="mt-1 flex flex-col sm:flex-row sm:items-center gap-3">
-              <input type="text" id="thirdPartyToken" placeholder="建议使用随机字符串，例如：iH5s9vB3..."
-                class="flex-1 border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              <button type="button" id="generateThirdPartyToken" class="btn-info text-white px-4 py-2 rounded-md text-sm font-medium whitespace-nowrap">
-                <i class="fas fa-magic mr-2"></i>生成令牌
-              </button>
-            </div>
-            <p class="mt-1 text-sm text-gray-500">调用 /api/notify/{token} 接口时需携带此令牌；留空表示禁用第三方 API 推送。</p>
-          </div>
-          
-          <div id="telegramConfig" class="config-section">
-            <h4 class="text-md font-medium text-gray-900 mb-3">Telegram 配置</h4>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              <div>
-                <label for="tgBotToken" class="block text-sm font-medium text-gray-700">Bot Token</label>
-                <input type="text" id="tgBotToken" placeholder="从 @BotFather 获取" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              </div>
-              <div>
-                <label for="tgChatId" class="block text-sm font-medium text-gray-700">Chat ID</label>
-                <input type="text" id="tgChatId" placeholder="可从 @userinfobot 获取" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              </div>
-            </div>
-            <div class="flex justify-end">
-              <button type="button" id="testTelegramBtn" class="btn-secondary text-white px-4 py-2 rounded-md text-sm font-medium">
-                <i class="fas fa-paper-plane mr-2"></i>测试 Telegram 通知
-              </button>
-            </div>
-          </div>
-          
-          <div id="notifyxConfig" class="config-section">
-            <h4 class="text-md font-medium text-gray-900 mb-3">NotifyX 配置</h4>
-            <div class="mb-4">
-              <label for="notifyxApiKey" class="block text-sm font-medium text-gray-700">API Key</label>
-              <input type="text" id="notifyxApiKey" placeholder="从 NotifyX 平台获取的 API Key" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              <p class="mt-1 text-sm text-gray-500">从 <a href="https://www.notifyx.cn/" target="_blank" class="text-indigo-600 hover:text-indigo-800">NotifyX平台</a> 获取的 API Key</p>
-            </div>
-            <div class="flex justify-end">
-              <button type="button" id="testNotifyXBtn" class="btn-secondary text-white px-4 py-2 rounded-md text-sm font-medium">
-                <i class="fas fa-paper-plane mr-2"></i>测试 NotifyX 通知
-              </button>
-            </div>
-          </div>
-
-          <div id="webhookConfig" class="config-section">
-            <h4 class="text-md font-medium text-gray-900 mb-3">Webhook 通知 配置</h4>
-            <div class="grid grid-cols-1 gap-4 mb-4">
-              <div>
-                <label for="webhookUrl" class="block text-sm font-medium text-gray-700">Webhook 通知 URL</label>
-                <input type="url" id="webhookUrl" placeholder="https://your-webhook-endpoint.com/path" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <p class="mt-1 text-sm text-gray-500">请填写自建服务或第三方平台提供的 Webhook 地址，例如 <code>https://your-webhook-endpoint.com/path</code></p>
-              </div>
-              <div>
-                <label for="webhookMethod" class="block text-sm font-medium text-gray-700">请求方法</label>
-                <select id="webhookMethod" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                  <option value="POST">POST</option>
-                  <option value="GET">GET</option>
-                  <option value="PUT">PUT</option>
-                </select>
-              </div>
-              <div>
-                <label for="webhookHeaders" class="block text-sm font-medium text-gray-700">自定义请求头 (JSON格式，可选)</label>
-                <textarea id="webhookHeaders" rows="3" placeholder='{"Authorization": "Bearer your-token", "Content-Type": "application/json"}' class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
-                <p class="mt-1 text-sm text-gray-500">JSON格式的自定义请求头，留空使用默认</p>
-              </div>
-              <div>
-                <label for="webhookTemplate" class="block text-sm font-medium text-gray-700">消息模板 (JSON格式，可选)</label>
-                <textarea id="webhookTemplate" rows="4" placeholder='{"title": "{{title}}", "content": "{{content}}", "timestamp": "{{timestamp}}"}' class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
-                <p class="mt-1 text-sm text-gray-500">支持变量: {{title}}, {{content}}, {{timestamp}}。留空使用默认格式</p>
-              </div>
-            </div>
-            <div class="flex justify-end">
-              <button type="button" id="testWebhookBtn" class="btn-secondary text-white px-4 py-2 rounded-md text-sm font-medium">
-                <i class="fas fa-paper-plane mr-2"></i>测试 Webhook 通知
-              </button>
-            </div>
-          </div>
-
-          <div id="wechatbotConfig" class="config-section">
-            <h4 class="text-md font-medium text-gray-900 mb-3">企业微信机器人 配置</h4>
-            <div class="grid grid-cols-1 gap-4 mb-4">
-              <div>
-                <label for="wechatbotWebhook" class="block text-sm font-medium text-gray-700">机器人 Webhook URL</label>
-                <input type="url" id="wechatbotWebhook" placeholder="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=your-key" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <p class="mt-1 text-sm text-gray-500">从企业微信群聊中添加机器人获取的 Webhook URL</p>
-              </div>
-              <div>
-                <label for="wechatbotMsgType" class="block text-sm font-medium text-gray-700">消息类型</label>
-                <select id="wechatbotMsgType" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                  <option value="text">文本消息</option>
-                  <option value="markdown">Markdown消息</option>
-                </select>
-                <p class="mt-1 text-sm text-gray-500">选择发送的消息格式类型</p>
-              </div>
-              <div>
-                <label for="wechatbotAtMobiles" class="block text-sm font-medium text-gray-700">@手机号 (可选)</label>
-                <input type="text" id="wechatbotAtMobiles" placeholder="13800138000,13900139000" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <p class="mt-1 text-sm text-gray-500">需要@的手机号，多个用逗号分隔，留空则不@任何人</p>
-              </div>
-              <div>
-                <label for="wechatbotAtAll" class="block text-sm font-medium text-gray-700 mb-2">@所有人</label>
-                <label class="inline-flex items-center">
-                  <input type="checkbox" id="wechatbotAtAll" class="form-checkbox h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
-                  <span class="ml-2 text-sm text-gray-700">发送消息时@所有人</span>
-                </label>
-              </div>
-            </div>
-            <div class="flex justify-end">
-              <button type="button" id="testWechatBotBtn" class="btn-secondary text-white px-4 py-2 rounded-md text-sm font-medium">
-                <i class="fas fa-paper-plane mr-2"></i>测试 企业微信机器人
-              </button>
-            </div>
-          </div>
-
-          <div id="emailConfig" class="config-section">
-            <h4 class="text-md font-medium text-gray-900 mb-3">邮件通知 配置</h4>
-            <div class="grid grid-cols-1 gap-4 mb-4">
-              <div>
-                <label for="resendApiKey" class="block text-sm font-medium text-gray-700">Resend API Key</label>
-                <input type="text" id="resendApiKey" placeholder="re_xxxxxxxxxx" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <p class="mt-1 text-sm text-gray-500">从 <a href="https://resend.com/api-keys" target="_blank" class="text-indigo-600 hover:text-indigo-800">Resend控制台</a> 获取的 API Key</p>
-              </div>
-              <div>
-                <label for="emailFrom" class="block text-sm font-medium text-gray-700">发件人邮箱</label>
-                <input type="email" id="emailFrom" placeholder="noreply@yourdomain.com" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <p class="mt-1 text-sm text-gray-500">必须是已在Resend验证的域名邮箱</p>
-              </div>
-              <div>
-                <label for="emailFromName" class="block text-sm font-medium text-gray-700">发件人名称</label>
-                <input type="text" id="emailFromName" placeholder="订阅提醒系统" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <p class="mt-1 text-sm text-gray-500">显示在邮件中的发件人名称</p>
-              </div>
-              <div>
-                <label for="emailTo" class="block text-sm font-medium text-gray-700">收件人邮箱</label>
-                <input type="email" id="emailTo" placeholder="user@example.com" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <p class="mt-1 text-sm text-gray-500">接收通知邮件的邮箱地址</p>
-              </div>
-            </div>
-            <div class="flex justify-end">
-              <button type="button" id="testEmailBtn" class="btn-secondary text-white px-4 py-2 rounded-md text-sm font-medium">
-                <i class="fas fa-paper-plane mr-2"></i>测试 邮件通知
-              </button>
-            </div>
-          </div>
-
-          <div id="barkConfig" class="config-section">
-            <h4 class="text-md font-medium text-gray-900 mb-3">Bark 配置</h4>
-            <div class="grid grid-cols-1 gap-4 mb-4">
-              <div>
-                <label for="barkServer" class="block text-sm font-medium text-gray-700">服务器地址</label>
-                <input type="url" id="barkServer" placeholder="https://api.day.app" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <p class="mt-1 text-sm text-gray-500">Bark 服务器地址，默认为官方服务器，也可以使用自建服务器</p>
-              </div>
-              <div>
-                <label for="barkDeviceKey" class="block text-sm font-medium text-gray-700">设备Key</label>
-                <input type="text" id="barkDeviceKey" placeholder="从Bark应用获取的设备Key" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                <p class="mt-1 text-sm text-gray-500">从 <a href="https://apps.apple.com/cn/app/bark-customed-notifications/id1403753865" target="_blank" class="text-indigo-600 hover:text-indigo-800">Bark iOS 应用</a> 中获取的设备Key</p>
-              </div>
-              <div>
-                <label for="barkIsArchive" class="block text-sm font-medium text-gray-700 mb-2">保存推送</label>
-                <label class="inline-flex items-center">
-                  <input type="checkbox" id="barkIsArchive" class="form-checkbox h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
-                  <span class="ml-2 text-sm text-gray-700">保存推送到历史记录</span>
-                </label>
-                <p class="mt-1 text-sm text-gray-500">勾选后推送消息会保存到 Bark 的历史记录中</p>
-              </div>
-            </div>
-            <div class="flex justify-end">
-              <button type="button" id="testBarkBtn" class="btn-secondary text-white px-4 py-2 rounded-md text-sm font-medium">
-                <i class="fas fa-paper-plane mr-2"></i>测试 Bark 通知
-              </button>
-            </div>
-          </div>
+        <div id="notifyxConfig" class="config-section">
+          <h4 class="field-label" style="font-size:.9375rem;margin-bottom:.75rem">NotifyX 配置</h4>
+          <div style="margin-bottom:.75rem"><label class="field-label" for="notifyxApiKey">API Key</label><input type="text" id="notifyxApiKey" class="field-input" placeholder="从 NotifyX 平台获取"><p class="field-hint">从 <a href="https://www.notifyx.cn/" target="_blank" style="color:var(--accent)">NotifyX 平台</a> 获取</p></div>
+          <div style="text-align:right"><button type="button" id="testNotifyXBtn" class="btn btn-secondary"><i class="fas fa-paper-plane"></i>测试 NotifyX 通知</button></div>
         </div>
-
-        <div class="flex justify-end">
-          <button type="submit" class="btn-primary text-white px-6 py-2 rounded-md text-sm font-medium">
-            <i class="fas fa-save mr-2"></i>保存配置
-          </button>
+        <div id="webhookConfig" class="config-section">
+          <h4 class="field-label" style="font-size:.9375rem;margin-bottom:.75rem">Webhook 通知 配置</h4>
+          <div style="display:grid;gap:.75rem;margin-bottom:.75rem">
+            <div><label class="field-label" for="webhookUrl">Webhook URL</label><input type="url" id="webhookUrl" class="field-input" placeholder="https://..."><p class="field-hint">请填写自建服务或第三方平台提供的 Webhook 地址</p></div>
+            <div><label class="field-label" for="webhookMethod">请求方法</label><select id="webhookMethod" class="field-select"><option value="POST">POST</option><option value="GET">GET</option><option value="PUT">PUT</option></select></div>
+            <div><label class="field-label" for="webhookHeaders">自定义请求头 (JSON 格式)</label><textarea id="webhookHeaders" rows="2" class="field-input" placeholder='{"Authorization": "Bearer your-token"}'></textarea><p class="field-hint">JSON 格式，留空使用默认</p></div>
+            <div><label class="field-label" for="webhookTemplate">消息模板 (JSON 格式)</label><textarea id="webhookTemplate" rows="3" class="field-input" placeholder='{"title": "{{title}}", "content": "{{content}}"}'></textarea><p class="field-hint">支持变量: {{title}}, {{content}}, {{timestamp}}</p></div>
+          </div>
+          <div style="text-align:right"><button type="button" id="testWebhookBtn" class="btn btn-secondary"><i class="fas fa-paper-plane"></i>测试 Webhook 通知</button></div>
         </div>
-      </form>
-    </div>
-  </div>
+        <div id="wechatbotConfig" class="config-section">
+          <h4 class="field-label" style="font-size:.9375rem;margin-bottom:.75rem">企业微信机器人 配置</h4>
+          <div style="display:grid;gap:.75rem;margin-bottom:.75rem">
+            <div><label class="field-label" for="wechatbotWebhook">机器人 Webhook URL</label><input type="url" id="wechatbotWebhook" class="field-input" placeholder="https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=..."><p class="field-hint">从企业微信群聊中添加机器人获取</p></div>
+            <div><label class="field-label" for="wechatbotMsgType">消息类型</label><select id="wechatbotMsgType" class="field-select"><option value="text">文本消息</option><option value="markdown">Markdown 消息</option></select></div>
+            <div><label class="field-label" for="wechatbotAtMobiles">@手机号 (可选)</label><input type="text" id="wechatbotAtMobiles" class="field-input" placeholder="13800138000,13900139000"><p class="field-hint">多个用逗号分隔，留空则不@任何人</p></div>
+            <div><label style="display:inline-flex;align-items:center;gap:.375rem;font-size:.875rem"><input type="checkbox" id="wechatbotAtAll" style="accent-color:var(--accent);width:1rem;height:1rem">发送消息时@所有人</label></div>
+          </div>
+          <div style="text-align:right"><button type="button" id="testWechatBotBtn" class="btn btn-secondary"><i class="fas fa-paper-plane"></i>测试 企业微信机器人</button></div>
+        </div>
+        <div id="emailConfig" class="config-section">
+          <h4 class="field-label" style="font-size:.9375rem;margin-bottom:.75rem">邮件通知 配置</h4>
+          <div style="display:grid;gap:.75rem;margin-bottom:.75rem">
+            <div><label class="field-label" for="resendApiKey">Resend API Key</label><input type="text" id="resendApiKey" class="field-input" placeholder="re_xxxxxxxxxx"><p class="field-hint">从 <a href="https://resend.com/api-keys" target="_blank" style="color:var(--accent)">Resend 控制台</a> 获取</p></div>
+            <div><label class="field-label" for="emailFrom">发件人邮箱</label><input type="email" id="emailFrom" class="field-input" placeholder="noreply@yourdomain.com"><p class="field-hint">必须是已在 Resend 验证的域名邮箱</p></div>
+            <div><label class="field-label" for="emailFromName">发件人名称</label><input type="text" id="emailFromName" class="field-input" placeholder="订阅提醒系统"><p class="field-hint">显示在邮件中的发件人名称</p></div>
+            <div><label class="field-label" for="emailTo">收件人邮箱</label><input type="email" id="emailTo" class="field-input" placeholder="user@example.com"><p class="field-hint">接收通知邮件的邮箱地址</p></div>
+          </div>
+          <div style="text-align:right"><button type="button" id="testEmailBtn" class="btn btn-secondary"><i class="fas fa-paper-plane"></i>测试 邮件通知</button></div>
+        </div>
+        <div id="barkConfig" class="config-section">
+          <h4 class="field-label" style="font-size:.9375rem;margin-bottom:.75rem">Bark 配置</h4>
+          <div style="display:grid;gap:.75rem;margin-bottom:.75rem">
+            <div><label class="field-label" for="barkServer">服务器地址</label><input type="url" id="barkServer" class="field-input" placeholder="https://api.day.app"><p class="field-hint">Bark 服务器地址，默认为官方服务器</p></div>
+            <div><label class="field-label" for="barkDeviceKey">设备 Key</label><input type="text" id="barkDeviceKey" class="field-input" placeholder="从 Bark 应用获取"><p class="field-hint">从 Bark iOS 应用中获取</p></div>
+            <div><label style="display:inline-flex;align-items:center;gap:.375rem;font-size:.875rem"><input type="checkbox" id="barkIsArchive" style="accent-color:var(--accent);width:1rem;height:1rem">保存推送到历史记录</label><p class="field-hint" style="margin-top:.25rem">勾选后推送消息会保存到 Bark 的历史记录中</p></div>
+          </div>
+          <div style="text-align:right"><button type="button" id="testBarkBtn" class="btn btn-secondary"><i class="fas fa-paper-plane"></i>测试 Bark 通知</button></div>
+        </div>
+        <div style="text-align:right;margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)">
+          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>保存配置</button>
+        </div>
+      </div>
+    </form>
+  </main>
 
   <script>
     function showToast(message, type = 'success', duration = 3000) {
