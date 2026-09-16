@@ -101,9 +101,7 @@ Fork仓库,然后点击自己仓库里的部署按钮，等待部署完成,**注
 > 💡 **提示**: 系统默认每天早上8点自动检查即将到期的订阅
 
 
-**欢迎大家关注我的公众号**
 
-![39d8d5a902fa1eee6cbbbc8a0dcff4b](https://github.com/user-attachments/assets/96bae085-4299-4377-9958-9a3a11294efc)
 
 
 
